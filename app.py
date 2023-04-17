@@ -188,7 +188,7 @@ def facereg():
                         username=username)
               
         if len(name) != 1:
-            return render_template("camera.html",message = 1)
+            return render_template("speaker.html")
 
         id_ = name[0]['id']    
         compressed_data = zlib.compress(encoded_image, 9) 
@@ -204,7 +204,7 @@ def facereg():
         try:
             images = face_recognition.load_image_file('./static/face/'+str(id_)+'.jpg')
         except:
-            return render_template("camera.html",message = 5)
+            return render_template("speaker.html")
 
         face_encoding = face_recognition.face_encodings(images)[0]
 
@@ -212,7 +212,7 @@ def facereg():
         try:
             unknown_face_encoding = face_recognition.face_encodings(unknown_image)[0]
         except:
-            return render_template("camera.html",message = 2)
+            return render_template("speaker.html")
 
 
 #compare faces
@@ -222,9 +222,10 @@ def facereg():
             username = db.execute("SELECT * FROM users WHERE username = :username",
                               username="swa")
             session["user_id"] = username[0]["id"]
-            return redirect("/")
+            # return redirect("/")
+            return render_template("asr.html")
         else:
-            return render_template("camera.html",message=3)
+            return render_template("speaker.html")
 
 
     else:
